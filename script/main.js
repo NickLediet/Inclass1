@@ -9,6 +9,19 @@
         let subImages = document.querySelector('.subImagesContainer');
         let objectIndex = dynamicContent[this.id];
 
+        // Delete any lingering thumbnails
+        document.querySelectorAll('.thumb').forEach((el) => el.remove()); 
+        objectIndex.images.forEach((el, index) => {
+            let newSubImg = document.createElement('img');
+
+            // Add CSS class
+            newSubImg.classList.add('thumb');
+            // Add an images sources
+            newSubImg.src = "images/" + objectIndex.images[index];
+            // Append it to the container
+            subImages.appendChild(newSubImg);
+        });
+
         theSubhead.classList.remove(appliedClass);
         theHeader.classList.remove(appliedClass);
         
@@ -25,4 +38,8 @@
         // Loop through the photos and do some stuff
         el.addEventListener('click', changeElements, false);
     });
+    
+    // Init app 
+    theSubhead.firstChild.nodeValue = dynamicContent['spring'].headline;
+    theSeasonText.firstChild.nodeValue = dynamicContent['spring'].text;
 })();
