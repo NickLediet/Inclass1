@@ -40,6 +40,5 @@
     });
     
     // Init app 
-    theSubhead.firstChild.nodeValue = dynamicContent['spring'].headline;
-    theSeasonText.firstChild.nodeValue = dynamicContent['spring'].text;
+    changeElements.call(document.querySelector('#spring')); // Call with param
 })();
