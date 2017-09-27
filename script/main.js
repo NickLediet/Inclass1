@@ -2,8 +2,20 @@
     const theImages = document.querySelectorAll('.image-holder'),
     theHeader = document.querySelector('.heading'),
     theSubhead = document.querySelector('.main-copy h2'),
-    theSeasonText = document.querySelector('.main-copy p');
+    theSeasonText = document.querySelector('.main-copy p'),
+    lightbox = document.querySelector('.lightbox'),
+    lightboxImg = document.querySelector('.lightbox-img');
     let appliedClass;
+
+    function poplightbox(e) {
+        lightbox.style.display = 'block';
+        lightbox.addEventListener('click', function() {
+            this.style.display = 'none';
+        }, 'false');
+        
+        lightboxImg.src = e.target.src;
+
+    }
 
     function changeElements() {
         let subImages = document.querySelector('.subImagesContainer');
@@ -18,6 +30,10 @@
             newSubImg.classList.add('thumb');
             // Add an images sources
             newSubImg.src = "images/" + objectIndex.images[index];
+
+            // add some event handling
+            newSubImg.addEventListener('click', poplightbox, 'false');
+
             // Append it to the container
             subImages.appendChild(newSubImg);
         });
@@ -33,6 +49,7 @@
 
         appliedClass = this.id;
     }
+
 
     theImages.forEach((el, index) => {
         // Loop through the photos and do some stuff
