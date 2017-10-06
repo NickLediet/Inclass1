@@ -4,58 +4,102 @@
     theSubhead = document.querySelector('.main-copy h2'),
     theSeasonText = document.querySelector('.main-copy p'),
     lightbox = document.querySelector('.lightbox'),
-    lightboxImg = document.querySelector('.lightbox-img');
+    lightboxImg = document.querySelector('.lightbox-img'),
+    lightboxDescription = document.querySelector('.lightbox-description'),
+    lightboxClose = document.querySelector('.lightbox-close');
     let appliedClass;
 
-    function poplightbox(e) {
-        lightbox.style.display = 'block';
-        lightbox.addEventListener('click', function() {
-            this.style.display = 'none';
-        }, 'false');
-        
-        lightboxImg.src = e.target.src;
+    const data = dynamicContent; // globals scare me
 
-    }
+    // STEPS
 
-    function changeElements() {
-        let subImages = document.querySelector('.subImagesContainer');
-        let objectIndex = dynamicContent[this.id];
+    //  1. show content based off image selected;
 
-        // Delete any lingering thumbnails
-        document.querySelectorAll('.thumb').forEach((el) => el.remove()); 
-        objectIndex.images.forEach((el, index) => {
-            let newSubImg = document.createElement('img');
-
-            // Add CSS class
-            newSubImg.classList.add('thumb');
-            // Add an images sources
-            newSubImg.src = "images/" + objectIndex.images[index];
-
-            // add some event handling
-            newSubImg.addEventListener('click', poplightbox, 'false');
-
-            // Append it to the container
-            subImages.appendChild(newSubImg);
-        });
-
-        theSubhead.classList.remove(appliedClass);
-        theHeader.classList.remove(appliedClass);
-        
-        theSubhead.classList.add(this.id);
-        theHeader.classList.add(this.id);
-
-        theSubhead.firstChild.nodeValue = objectIndex.headline;
-        theSeasonText.firstChild.nodeValue = objectIndex.text;
-
-        appliedClass = this.id;
-    }
-
-
-    theImages.forEach((el, index) => {
-        // Loop through the photos and do some stuff
-        el.addEventListener('click', changeElements, false);
-    });
+    //  2. Set initial data to spring
     
-    // Init app 
-    changeElements.call(document.querySelector('#spring')); // Call with param
+    //  3. onClick subImg > show the lightbox
+
+    //  4. Pass content off into the lightbox and display it
+
+    //  5. Add functinoality to the lightbox
+
+    const DOMmethods = {
+        
+        // Set initial value to spring
+        init() {
+            this.changeSeasons('spring');
+        },
+
+        changeSeasons(id) {
+            let currentSeasonData = dynamicContent[id];
+
+            // change the data
+            theSubhead.innerHTML = currentSeasonData.headline;
+            theSeasonText.innerHTML = currentSeasonData.text;
+
+            // Clear out thumbnails that maybe left over
+            this.clearThumbnails();
+
+            // build the thumbnails
+            // for each image in the data create a thumbnail 
+            currentSeasonData.images.forEach((el, index) => {
+                // Create image with a class of thumb and an image src
+                let newThumbnail = document.createElement('img')
+                newThumbnail.classList.add('thumb');
+                newThumbnail.src = `images/${currentSeasonData.images[index]}`; 
+                
+                // Add it the page
+                document.querySelector(".subImagesContainer").appendChild(newThumbnail);
+                
+                // create a context object to hold details for lightbox
+                let context = {
+                    image : newThumbnail.src,
+                    description : currentSeasonData.imageDescriptions[index]
+                };
+
+                // lightbox trigger
+                newThumbnail.addEventListener('click', () => this.lightboxController.toggleLightbox(context));
+            });
+        },
+
+        clearThumbnails() {
+            document.querySelectorAll('.thumb')
+                    .forEach(el => el.remove());
+        },
+
+        lightboxController : {
+            getCSS : isToggled => isToggled ? 'flex' : 'none', 
+
+            toggleLightbox(context) {
+                // Set css for the lightbox
+                lightbox.style.display = this.getCSS(true);
+
+                // Init elements
+                lightboxDescription.innerHTML = context.description;
+                lightboxImg.style.background = `url(${context.image}) no-repeat`;
+                lightboxImg.style.backgroundSize = "cover";
+                
+                // Add close handler
+                lightboxClose.addEventListener('click', this.closeLightbox)
+            },
+
+            closeLightbox() {
+                // Turn off the element
+                lightbox.style = getCSS(false);
+            }
+        }
+    }
+
+    
+    // Add changeSeasons to event
+    theImages.forEach( el => {
+        // Add a click listener that passes the current index off the the change
+        // change seasons function
+        el.addEventListener('click', () => {
+            DOMmethods.changeSeasons(el.id);
+        });
+    });
+
+    // Intialize gallery to spring
+    DOMmethods.init();
 })();

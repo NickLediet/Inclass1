@@ -58,7 +58,11 @@ section { margin-top: 15px; background-color: #FFF; }
 .thumb { height: 90px; margin: 8px; cursor: pointer; }
 
 .lightbox {
+	padding-top: 150px;	
 	position: absolute;
+	display: none;
+	flex-direction: column;
+	align-content: center;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -68,9 +72,27 @@ section { margin-top: 15px; background-color: #FFF; }
 	color: white;
 	z-index: 999;
 }
-.ligthbox-img {
-	height: 75%;
-	width: 75%;
+
+.lightbox-img {
+	/* border: 1px solid red;		 */
+	height: 400px;
+	width: 500px;
+	margin: 0 auto;
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.lightbox-description {
+	font-family: 'Mystery Quest', cursive;
+	font-size: 1.5em;
+	align-self: center;	
+}
+
+.lightbox-close {
+	font-size: 1.5em;
+	align-self: center;
+	margin-bottom: 1em;
+	margin-left: 450px; /* is this bad? yes. does it work? also yes. */
 }
 .showing { display: block; }
 
