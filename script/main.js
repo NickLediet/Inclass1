@@ -2,43 +2,115 @@
     const theImages = document.querySelectorAll('.image-holder'),
     theHeader = document.querySelector('.heading'),
     theSubhead = document.querySelector('.main-copy h2'),
-    theSeasonText = document.querySelector('.main-copy p');
+    theSeasonText = document.querySelector('.main-copy p'),
+    lightbox = document.querySelector('.lightbox'),
+    lightboxImg = document.querySelector('.lightbox-img'),
+    lightboxDescription = document.querySelector('.lightbox-description'),
+    lightboxClose = document.querySelector('.lightbox-close');
     let appliedClass;
 
-    function changeElements() {
-        let subImages = document.querySelector('.subImagesContainer');
-        let objectIndex = dynamicContent[this.id];
+    const data = dynamicContent; // globals scare me
 
-        // Delete any lingering thumbnails
-        document.querySelectorAll('.thumb').forEach((el) => el.remove()); 
-        objectIndex.images.forEach((el, index) => {
-            let newSubImg = document.createElement('img');
+    // STEPS
 
-            // Add CSS class
-            newSubImg.classList.add('thumb');
-            // Add an images sources
-            newSubImg.src = "images/" + objectIndex.images[index];
-            // Append it to the container
-            subImages.appendChild(newSubImg);
-        });
+    //  1. show content based off image selected;
 
-        theSubhead.classList.remove(appliedClass);
-        theHeader.classList.remove(appliedClass);
+    //  2. Set initial data to spring
+    
+    //  3. onClick subImg > show the lightbox
+
+    //  4. Pass content off into the lightbox and display it
+
+    //  5. Add functinoality to the lightbox
+
+    const DOMmethods = {
         
-        theSubhead.classList.add(this.id);
-        theHeader.classList.add(this.id);
+        // Set initial value to spring
+        init() {
+            this.changeSeasons('spring');
+        },
 
-        theSubhead.firstChild.nodeValue = objectIndex.headline;
-        theSeasonText.firstChild.nodeValue = objectIndex.text;
+        changeSeasons(id) {
+            let currentSeasonData = dynamicContent[id];
 
-        appliedClass = this.id;
+            // change the data
+            theSubhead.innerHTML = currentSeasonData.headline;
+            theSeasonText.innerHTML = currentSeasonData.text;
+
+            // Clear out thumbnails that maybe left over
+            this.clearThumbnails();
+
+            // build the thumbnails
+            // for each image in the data create a thumbnail 
+            currentSeasonData.images.forEach((el, index) => {
+                // Create image with a class of thumb and an image src
+                let newThumbnail = document.createElement('img')
+                newThumbnail.classList.add('thumb');
+                newThumbnail.src = `images/${currentSeasonData.images[index]}`; 
+                
+                // Add it the page
+                document.querySelector(".subImagesContainer").appendChild(newThumbnail);
+                
+                // create a context object to hold details for lightbox
+                let context = {
+                    image : newThumbnail.src,
+                    description : currentSeasonData.imageDescriptions[index]
+                };
+
+                // lightbox trigger
+                newThumbnail.addEventListener('click', () => this.lightboxController.toggleLightbox(context));
+            });
+        },
+
+        clearThumbnails() {
+            document.querySelectorAll('.thumb')
+                    .forEach(el => el.remove());
+        },
+
+        lightboxController : {
+            getCSS(isToggled) {
+                return isToggled ? 'flex' : 'none';
+            },
+
+            toggleLightbox(context) {
+                // Set css for the lightbox
+                lightbox.style.display = this.getCSS(true);
+
+                // Init elements
+                lightboxDescription.innerHTML = context.description;
+                lightboxImg.style.background = `url(${context.image}) no-repeat`;
+                lightboxImg.style.backgroundSize = "cover";
+                
+                // Add close handler 
+                // UX EXPLAINATION: So the reason this isn't tied to .lightbox-close, 
+                // is that all lightboxes I have ever used can be toggled by just clicking off.
+                // I want to use .lightbox-close more as a subtle nudge to the user that 
+                // they can click off.  For people use to lightboxes they should be use
+                // to simply clicking off to un-toggle the lightbox. 
+                lightbox.addEventListener('click', this.closeLightbox)
+            },
+
+            // not resetting the lightbox because there is no point.  
+            // the lightbox is generated based off context anyways. destructuring would
+            // be useless. Code is initialized every toggleEvent via the thumbnail
+            closeLightbox() {
+                console.log("event fired");
+                // Turn off the element
+                lightbox.style.display = DOMmethods.lightboxController.getCSS(false); // For some reason refer explicitly to the method works, but no other way
+            }
+        }
     }
 
-    theImages.forEach((el, index) => {
-        // Loop through the photos and do some stuff
-        el.addEventListener('click', changeElements, false);
-    });
     
-    // Init app 
-    changeElements.call(document.querySelector('#spring')); // Call with param
+    // Add changeSeasons to event
+    theImages.forEach( el => {
+        // Add a click listener that passes the current index off the the change
+        // change seasons function
+        el.addEventListener('click', () => {
+            DOMmethods.changeSeasons(el.id);
+        });
+    });
+
+    // Intialize gallery to spring
+    DOMmethods.init();
 })();
