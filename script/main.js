@@ -68,7 +68,9 @@
         },
 
         lightboxController : {
-            getCSS : isToggled => isToggled ? 'flex' : 'none', 
+            getCSS(isToggled) {
+                return isToggled ? 'flex' : 'none';
+            },
 
             toggleLightbox(context) {
                 // Set css for the lightbox
@@ -84,8 +86,9 @@
             },
 
             closeLightbox() {
+                console.log("event fired");
                 // Turn off the element
-                lightbox.style = getCSS(false);
+                lightbox.style.display = DOMmethods.lightboxController.getCSS(false); // For some reason refer explicitly to the method works, but no other way
             }
         }
     }
