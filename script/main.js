@@ -81,10 +81,18 @@
                 lightboxImg.style.background = `url(${context.image}) no-repeat`;
                 lightboxImg.style.backgroundSize = "cover";
                 
-                // Add close handler
-                lightboxClose.addEventListener('click', this.closeLightbox)
+                // Add close handler 
+                // UX EXPLAINATION: So the reason this isn't tied to .lightbox-close, 
+                // is that all lightboxes I have ever used can be toggled by just clicking off.
+                // I want to use .lightbox-close more as a subtle nudge to the user that 
+                // they can click off.  For people use to lightboxes they should be use
+                // to simply clicking off to un-toggle the lightbox. 
+                lightbox.addEventListener('click', this.closeLightbox)
             },
 
+            // not resetting the lightbox because there is no point.  
+            // the lightbox is generated based off context anyways. destructuring would
+            // be useless. Code is initialized every toggleEvent via the thumbnail
             closeLightbox() {
                 console.log("event fired");
                 // Turn off the element
