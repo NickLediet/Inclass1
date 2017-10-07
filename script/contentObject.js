@@ -11,12 +11,16 @@ var dynamicContent = {
 
 		images : [
 			"spring_1.jpg",
-			"spring_2.jpg"
+			"spring_2.jpg",
+			"spring_3.jpg",
+			"spring_4.jpg"
 		],
 		
 		imageDescriptions : [
 			"This is some pretty Flowers",
-			"This is some kind of mutant chicken"
+			"This is some kind of mutant chicken",
+			"The goat wishes to be a real boy.",
+			"This puppy has transended his basic physical abilities"
 		]
 	},
 	
@@ -27,11 +31,15 @@ var dynamicContent = {
 		
 		images : [
 			"summer_1.jpg",
-			"summer_2.jpg"
+			"summer_2.jpg",
+			"summer_3.jpg",
+			"summer_4.jpg"
 		],
 		imageDescriptions : [
 			"This is some pretty Flowers",
-			"This is some kind of mutant chicken"
+			"This is some kind of mutant chicken",
+			"It's actually winter in this photo. Just too close to the equater to warrent ever being anything but summer",
+			"What's more summery than flip-flops?"
 		]
 	},
 	
@@ -42,11 +50,15 @@ var dynamicContent = {
 		
 		images : [
 			"autumn_1.jpg",
-			"autumn_2.jpg"
+			"autumn_2.jpg",
+			"autumn_3.jpg",
+			"autumn_4.jpg"	
 		],
 		imageDescriptions : [
 			"This is some pretty Flowers",
-			"This is some kind of mutant chicken"
+			"This is some kind of mutant chicken",
+			"Why are are the leaves so scared?",
+			"When will anyone rescue this kitten from the tree? Kittens hate fall...."
 		]
 	},
 	
@@ -57,11 +69,15 @@ var dynamicContent = {
 
 		images : [
 			"winter_1.jpg",
-			"winter_2.jpg"
+			"winter_2.jpg",
+			"winter_3.jpg",
+			"winter_4.jpg"
 		],
 		imageDescriptions : [
 			"This is some pretty Flowers",
-			"This is some kind of mutant chicken"
+			"This is some kind of mutant chicken",
+			"THERE ISN'T TIME FOR THAT",
+			"The only war that matters is the one between the living and the dead."
 		]
 	}
 };
